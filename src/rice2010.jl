@@ -127,6 +127,11 @@ function constructrice(p)
     set_param!(m, :damages, :a2, p[:a2])
     set_param!(m, :damages, :a3, p[:a3])
 
+        # changes
+    set_param!(m, :damages, :f1, p[:f1])
+    set_param!(m, :damages, :f2, p[:f2])
+    set_param!(m, :damages, :f3, p[:f3])
+
     connect_param!(m, :damages, :TATM, :climatedynamics, :TATM)
     connect_param!(m, :damages, :YGROSS, :grosseconomy, :YGROSS)
     connect_param!(m, :damages, :SLRDAMAGES, :sealeveldamages, :SLRDAMAGES)
@@ -151,9 +156,9 @@ function constructrice(p)
     connect_param!(m, :welfare, :CPC, :neteconomy, :CPC)
 
     return m
-end #function 
-    
-function getrice(;datafile=joinpath(@__DIR__, "..", "data", "RICE_2010_base_000.xlsm"))
+end #function
+
+function getrice(;datafile=joinpath(@__DIR__, "..", "data", "RICE_2010_base_000_v1.1s.xlsm"))
     params = getrice2010parameters(datafile)
 
     m = constructrice(params)

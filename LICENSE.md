@@ -1,5 +1,5 @@
 Mimi-RICE-2010.jl is licensed under the MIT license. This includes all
-content in this repository, except the file RICE_2010_base_000.xlsm.
+content in this repository, except the file RICE_2010_base_000_v1.1s.xlsm.
 
 > Copyright (c) 2015-2017: David Anthoff, Frank Errickson and other
 > contributors:
@@ -25,6 +25,6 @@ content in this repository, except the file RICE_2010_base_000.xlsm.
 > OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 > WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-This repository includes the file RICE_2010_base_000.xlsm. This file was
+This repository includes the file RICE_2010_base_000_v1.1s.xlsm. This file was
 downloaded from http://www.econ.yale.edu/~nordhaus/homepage/RICEmodels.htm.
 This file has its own license (see the "Release notes" sheet in the file).

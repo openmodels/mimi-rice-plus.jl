@@ -9,16 +9,35 @@ using Mimi
     TATM = Parameter(index=[time]) # Increase temperature of atmosphere (degrees C from 1900)
     YGROSS = Parameter(index=[time, regions]) # Gross world product GROSS of abatement and damages (trillions 2005 USD per year)
     SLRDAMAGES = Parameter(index=[time, regions])
-    a1 = Parameter(index=[regions]) # Damage intercept
+    a1 = Parameter(index=[regions]) # Damage linear term
     a2 = Parameter(index=[regions]) # Damage quadratic term
-    a3 = Parameter(index=[regions]) # Damage exponent    
+    a3 = Parameter(index=[regions]) # Damage exponent
+
+        # changes
+    f1 = Parameter(index=[regions]) # Damage intercept
+    f2 = Parameter(index=[regions]) # Damage linear term
+    f3 = Parameter(index=[regions]) # Damage quadratic term
 
     function run_timestep(p, v, d, t)
-        
-        #Define function for DAMFRAC
+
+            # changes
+        # NEW - Define function for DAMFRAC (based on Burke damages relative to Burke temperature baseline)
+
+        # Notes:
+        # not devided by 100 as the function already gives damages as a fraction of 1
+        # (-) because the function gives damages that are negative but we want a positive DAMFRAC
+        # -0.75 adjusts the TATM to the temperature increase relative to Burke baseline (1980-2010) rather then 1900 bseline
+                # WARNING: may still need to adjust this
+
         for r in d.regions
-            v.DAMFRAC[t,r] = (((p.a1[r] * p.TATM[t]) + (p.a2[r] * p.TATM[t]^p.a3[r])) / 100) + (p.SLRDAMAGES[t,r] / 100)
+            v.DAMFRAC[t,r] = -((p.f1[r] + p.f2[r] * (p.TATM[t] - 0.75)) + (p.f3[r] * (p.TATM[t] - 0.75)^p.a3[r])) + (p.SLRDAMAGES[t,r] / 100)
         end
+
+
+        #OLD - Define function for DAMFRAC
+        #for r in d.regions
+        #    v.DAMFRAC[t,r] = (((p.a1[r] * p.TATM[t]) + (p.a2[r] * p.TATM[t]^p.a3[r])) / 100) + (p.SLRDAMAGES[t,r] / 100)
+        #end
 
         #Define function for DAMAGES
         for r in d.regions

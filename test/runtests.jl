@@ -10,7 +10,7 @@ using .Rice2010
 m = getrice()
 run(m)
 
-parameter_filename = joinpath(@__DIR__, "..", "data", "RICE_2010_base_000.xlsm")
+parameter_filename = joinpath(@__DIR__, "..", "data", "RICE_2010_base_000_v1.1s.xlsm")
 
 f=openxl(parameter_filename)
 regions = ["US", "EU", "Japan", "Russia", "Eurasia", "China", "India", "MidEast", "Africa", "LatAm", "OHI", "OthAsia"]

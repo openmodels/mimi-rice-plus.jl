@@ -67,9 +67,14 @@ function getrice2010parameters(filename)
     p[:fco22x] = 3.8 # Forcings of equilibrium CO2 doubling (Wm-2)
 
     # Climate damage parameters
-    p[:a1] = getparam_single(f, "B24:B24", regions) # Damage intercept
+    p[:a1] = getparam_single(f, "B24:B24", regions) # Damage linear term
     p[:a2] = getparam_single(f, "B25:B25", regions) # Damage quadratic term
     p[:a3] = getparam_single(f, "B26:B26", regions) # Damage exponent
+
+        # changes
+    p[:f1] = getparam_single(f, "B165:B165", regions) # Damage intercept
+    p[:f2] = getparam_single(f, "B166:B166", regions) # Damage linear term
+    p[:f3] = getparam_single(f, "B167:B167", regions) # Damage quadratic term
 
     # Welfare Weights
     alpha0 = transpose(readxl(f, "Data!B359:BI370")) # Read in alpha
