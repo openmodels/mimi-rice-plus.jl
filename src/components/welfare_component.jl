@@ -9,7 +9,7 @@ using Mimi
     REGUTILITY = Variable(index=[regions]) # Welfare Function
     UTILITY = Variable()
 
-    CPC = Parameter(index=[time, regions])
+    CPC = Parameter(index=[time, regions]) # Per capita consumption (thousands 2005 USD per year)
     l = Parameter(index=[time, regions]) # Level of population and labor
     elasmu = Parameter(index=[regions]) # Elasticity of marginal utility of consumption
     rr = Parameter(index=[time, regions]) # Average utility social discount rate

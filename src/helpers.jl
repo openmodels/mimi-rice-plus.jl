@@ -18,6 +18,16 @@ function getparam_single(f, range::AbstractString, regions)
     return vals
 end
 
+# NEW: CCOUNTRY-LEVEL: Function to read a single parameter value for the country-level adaptations.
+function getparam_single_ctry(f, range::AbstractString, countries)
+    vals= Array{Float64}(undef, length(countries))
+    for (i,c) = enumerate(countries)
+        data=readxl(f,"$(c)!$(range)")
+        vals[i]=data[1]
+    end
+    return vals
+end
+
 #Function to read a time series of parameter values from original RICE 2010 model.
 function getparam_timeseries(f, range::AbstractString, regions, T)
     vals= Array{Float64}(undef, T, length(regions))

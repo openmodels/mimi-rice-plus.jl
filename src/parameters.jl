@@ -8,6 +8,10 @@ function getrice2010parameters(filename)
     p[:timesteps] = 1:T # Time periods (5 years per period)
     regions = ["US", "EU", "Japan", "Russia", "Eurasia", "China", "India", "MidEast", "Africa", "LatAm", "OHI", "OthAsia"]
 
+    # NEW: COUNTRY-LEVEL - countries included for country-level analyses
+    countries = ["AFG", "AGO", "ALB", "ARE", "ARG", "ARM", "AUS", "AUT", "AZE", "BDI", "BEL", "BEN", "BFA", "BGD", "BGR", "BHS", "BIH", "BLR", "BLZ", "BOL", "BRA", "BRN", "BTN", "BWA", "CAF", "CAN", "CHE", "CHL", "CHN", "CIV", "CMR", "COD", "COG", "COL", "COM", "CPV", "CRI", "CUB", "CYP", "CZE", "DEU", "DJI", "DNK", "DOM", "DZA", "ECU", "EGY", "ERI", "ESP", "EST", "ETH", "FIN", "FJI", "FRA", "GAB", "GBR", "GEO", "GHA", "GIN", "GMB", "GNB", "GNQ", "GRC", "GTM", "GUY", "HND", "HRV", "HTI",	"HUN", "IDN", "IND", "IRL", "IRN", "IRQ", "ISL", "ISR", "ITA", "JAM", "JOR", "JPN", "KAZ", "KEN", "KGZ", "KHM", "KOR", "KWT", "LAO", "LBN", "LBR", "LBY", "LKA", "LSO", "LTU", "LUX", "LVA", "MAR", "MDA", "MDG", "MEX", "MKD", "MLI", "MNG", "MOZ", "MRT", "MUS", "MWI", "MYS", "NAM", "NER", "NGA", "NIC", "NLD", "NOR", "NPL", "NZL", "OMN", "PAK", "PAN", "PER", "PHL", "PNG", "POL", "PRI", "PRT", "PRY", "QAT", "ROU", "RUS", "RWA", "SAU", "SDN", "SEN", "SLB", "SLE", "SLV", "SRB", "STP", "SUR",	"SVK", "SVN", "SWE", "SWZ", "SYR", "TCD", "TGO", "THA", "TJK", "TKM", "TTO", "TUN", "TUR", "TZA", "UGA", "UKR", "URY", "USA", "UZB", "VCT", "VEN", "VNM", "VUT", "WSM", "YEM", "ZAF", "ZMB"]
+    # print(countries)
+
     # Open RICE_2010 Excel File to Read Parameters
     f = openxl(filename)
 
@@ -19,6 +23,7 @@ function getrice2010parameters(filename)
     ifopt = true # Indicator where optimized is 1 and base is 0
 
     # Preferences
+    # I could change these parameters (especially the EoMU)
     p[:elasmu] =  getparam_single(f, "B18:B18", regions) # Elasticity of MU of consumption
     p[:prstp] =  getparam_single(f, "B15:B15", regions) # Rate of Social Time Preference
 
@@ -71,10 +76,15 @@ function getrice2010parameters(filename)
     p[:a2] = getparam_single(f, "B25:B25", regions) # Damage quadratic term
     p[:a3] = getparam_single(f, "B26:B26", regions) # Damage exponent
 
-        # changes
-    p[:f1] = getparam_single(f, "B165:B165", regions) # Damage intercept
-    p[:f2] = getparam_single(f, "B166:B166", regions) # Damage linear term
-    p[:f3] = getparam_single(f, "B167:B167", regions) # Damage quadratic term
+        # NEW - Climate damage parameters for region-level (still using the damage exponent a3 though)
+    p[:f1] = getparam_single(f, "B165:B165", regions) # Damage intercept (region)
+    p[:f2] = getparam_single(f, "B166:B166", regions) # Damage linear term (region)
+    p[:f3] = getparam_single(f, "B167:B167", regions) # Damage quadratic term (region)
+
+        # NEW: COUNTRY-LEVEL - Climate damage paramters for country-level (still using the damage exponent a3 though)
+    p[:n1] = getparam_single_ctry(f, "D2:D2", countries) # Damage intercept (country)
+    p[:n2] = getparam_single_ctry(f, "B2:B2", countries) # Damage linear term (country)
+    p[:n3] = getparam_single_ctry(f, "C2:C2", countries) # Damage quadratic term (country)
 
     # Welfare Weights
     alpha0 = transpose(readxl(f, "Data!B359:BI370")) # Read in alpha
