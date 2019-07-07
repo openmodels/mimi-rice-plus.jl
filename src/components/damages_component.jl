@@ -1,4 +1,12 @@
 using Mimi
+using DelimitedFiles
+using CSVFiles
+using DataFrames
+using CSV
+using Distributions
+
+# define the output directory
+#dir_output = "C:/Users/simon/Google Drive/Uni/LSE Master/02_Dissertation/10_Modelling/damage-regressions/data/mimi-rice-output/"
 
 @defcomp damages begin
     regions = Index()
@@ -136,5 +144,30 @@ using Mimi
                 v.DAMAGESOLD[t,r] = v.DAMAGESTATMOLD[t,r] + v.DAMAGESSLROLD[t,r] # Total DAMAGES
             end
         end
+
+
+        # only old attempts
+
+        # # Export csv-file for selected years
+        # for r in d.regions
+        #     if is_first(t)
+        #         writedlm("DAMFRACTATM.csv",  v.DAMFRACTATM[t,r], ',')
+        #     else
+        #         writedlm("DAMFRACTATM.csv",  v.DAMFRACTATM[t,r], ',')
+        #     end
+        # end
+
+        # for r in d.regions
+        #     if is_first(t)
+        #         writedlm(string(dir_output, "damfractatm", "_year", string(time), ".csv"),
+        #                          [permutedims(regions); v.DAMFRACTATM[t,r]], ",")
+        #     else
+        #         writedlm(string(dir_output, "damfractatm", "_year", string(time), ".csv"),
+        #                          [permutedims(regions); v.DAMFRACTATM[t,r]], ",")
+        #     end
+        # end
+        #
+        # CSV.write(string(dir_output, "damfractatm.csv"), v.DAMFRACTATM)
+
     end
 end
