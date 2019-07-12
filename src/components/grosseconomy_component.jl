@@ -15,7 +15,7 @@ using Mimi
     k0 = Parameter(index=[regions]) # Initial capital value (trill 2005 USD)
 
     #     # NEW: COUNTRY-LEVEL
-    YGROSSCTRY = Variable(index=[time, countries]) # Gross domestic product GROSS of abatement and damages (trillions 2005 USD per year)
+    YGROSSctry = Variable(index=[time, countries]) # Gross domestic product GROSS of abatement and damages (trillions 2005 USD per year)
     gdpshare = Parameter(index=[countries]) # GDP share of a country relative to the region GDP
     inregion = Parameter(index=[countries]) # attributing a country to the region it belongs to
 
@@ -39,32 +39,32 @@ using Mimi
             # println(r)
         end
 
-        #Define function for YGROSSCTRY
+        #Define function for YGROSSctry
         for c in d.countries
             if p.inregion[c] == 1
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,1] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,1] * p.gdpshare[c]
             elseif p.inregion[c] == 2
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,2] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,2] * p.gdpshare[c]
             elseif p.inregion[c] == 3
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,3] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,3] * p.gdpshare[c]
             elseif p.inregion[c] == 4
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,4] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,4] * p.gdpshare[c]
             elseif p.inregion[c] == 5
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,5] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,5] * p.gdpshare[c]
             elseif p.inregion[c] == 6
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,6] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,6] * p.gdpshare[c]
             elseif p.inregion[c] == 7
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,7] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,7] * p.gdpshare[c]
             elseif p.inregion[c] == 8
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,8] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,8] * p.gdpshare[c]
             elseif p.inregion[c] == 9
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,9] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,9] * p.gdpshare[c]
             elseif p.inregion[c] == 10
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,10] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,10] * p.gdpshare[c]
             elseif p.inregion[c] == 11
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,11] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,11] * p.gdpshare[c]
             elseif p.inregion[c] == 12
-                v.YGROSSCTRY[t,c] = v.YGROSS[t,12] * p.gdpshare[c]
+                v.YGROSSctry[t,c] = v.YGROSS[t,12] * p.gdpshare[c]
             else
                 println("country does not belong to any region")
             end

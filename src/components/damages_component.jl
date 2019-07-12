@@ -57,8 +57,8 @@ using Distributions
     YGROSS = Parameter(index=[time, regions]) # Gross world product GROSS of abatement and damages (trillions 2005 USD per year)
     SLRDAMAGES = Parameter(index=[time, regions])
 
-    # NEW: COUNTRY-LEVEL - YGROSSCTRY
-    YGROSSCTRY = Parameter(index=[time, countries]) # Gross domestic product GROSS of abatement and damages (trillions 2005 USD per year)
+    # NEW: COUNTRY-LEVEL - YGROSSctry
+    YGROSSctry = Parameter(index=[time, countries]) # Gross domestic product GROSS of abatement and damages (trillions 2005 USD per year)
 
     # NEW: COUNTRY-LEVEL - Coastal population share to calculate country-level SLR damages
     coastalpopshare = Parameter(index=[countries]) # Coastal population share
@@ -157,11 +157,11 @@ using Distributions
         # NEW: COUNTRY-LEVEL - Define function for country-level DAMAGES (with 1900 baseline) (calculated with a constant GDP share (as in 2016) of countries of the total region GDP)
         for c in d.countries
             if is_first(t)
-                v.DAMAGESTATMCTRY[t,c] = p.YGROSSCTRY[t,c] * (1 - 1 / (1+v.DAMFRACTATMCTRY[t,c])) # DAMAGES from temperature changes
+                v.DAMAGESTATMCTRY[t,c] = p.YGROSSctry[t,c] * (1 - 1 / (1+v.DAMFRACTATMCTRY[t,c])) # DAMAGES from temperature changes
                 # v.DAMAGESSLR[t,r] = p.YGROSS[t,r] * (1 - 1 / (1+v.DAMFRACSLR[t,r])) # DAMAGES from SLR
                 # v.DAMAGES[t,r] = v.DAMAGESTATM[t,r] + v.DAMAGESSLR[t,r] # Total DAMAGES
             else
-                v.DAMAGESTATMCTRY[t,c] = (p.YGROSSCTRY[t,c] * v.DAMFRACTATMCTRY[t,c]) / (1. + v.DAMFRACTATMCTRY[t,c]) # DAMAGES from temperature changes
+                v.DAMAGESTATMCTRY[t,c] = (p.YGROSSctry[t,c] * v.DAMFRACTATMCTRY[t,c]) / (1. + v.DAMFRACTATMCTRY[t,c]) # DAMAGES from temperature changes
                 # v.DAMAGESSLR[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLR[t,r]) / (1. + v.DAMFRACSLR[t,r]) # DAMAGES from SLR
                 # v.DAMAGES[t,r] = v.DAMAGESTATM[t,r] + v.DAMAGESSLR[t,r] # Total DAMAGES
             end
@@ -382,17 +382,17 @@ using Distributions
 
         # NEW: COUNTRY-LEVEL - Define function function for country-level SLR DAMFRAC
         for c in d.countries
-                v.DAMFRACSLRCTRYcoastalpop[t,c] = v.DAMAGESSLRCTRYcoastalpop[t,c] / p.YGROSSCTRY[t,c]
+                v.DAMFRACSLRCTRYcoastalpop[t,c] = v.DAMAGESSLRCTRYcoastalpop[t,c] / p.YGROSSctry[t,c]
         end
 
         # NEW: COUNTRY-LEVEL - Define function function for country-level SLR DAMFRAC
         for c in d.countries
-                v.DAMFRACSLRCTRY[t,c] = v.DAMAGESSLRCTRY[t,c] / p.YGROSSCTRY[t,c]
+                v.DAMFRACSLRCTRY[t,c] = v.DAMAGESSLRCTRY[t,c] / p.YGROSSctry[t,c]
         end
 
         # NEW: COUNTRY-LEVEL - Attempt to reverse calculate the DAMFRAC --> weird results
         for c in d.countries
-                v.DAMFRACSLRCTRYreverse[t,c] = (v.DAMAGESSLRCTRYcoastalpop[t,c] / p.YGROSSCTRY[t,c]) / (1. - (v.DAMAGESSLRCTRYcoastalpop[t,c] / p.YGROSSCTRY[t,c]))
+                v.DAMFRACSLRCTRYreverse[t,c] = (v.DAMAGESSLRCTRYcoastalpop[t,c] / p.YGROSSctry[t,c]) / (1. - (v.DAMAGESSLRCTRYcoastalpop[t,c] / p.YGROSSctry[t,c]))
         end
 
 
@@ -430,11 +430,11 @@ using Distributions
         # NEW: COUNTRY-LEVEL - Define function for country-level DAMAGES (relative to Projection System Baseline (1981-2015)) (calculated with a constant GDP share (as in 2016) of countries of the total region GDP)
         for c in d.countries
             if is_first(t)
-                v.DAMAGESTATMCTRY1998[t,c] = p.YGROSSCTRY[t,c] * (1 - 1 / (1+v.DAMFRACTATMCTRY1998[t,c])) # DAMAGES from temperature changes
+                v.DAMAGESTATMCTRY1998[t,c] = p.YGROSSctry[t,c] * (1 - 1 / (1+v.DAMFRACTATMCTRY1998[t,c])) # DAMAGES from temperature changes
                 # v.DAMAGESSLR[t,r] = p.YGROSS[t,r] * (1 - 1 / (1+v.DAMFRACSLR[t,r])) # DAMAGES from SLR
                 # v.DAMAGES[t,r] = v.DAMAGESTATM[t,r] + v.DAMAGESSLR[t,r] # Total DAMAGES
             else
-                v.DAMAGESTATMCTRY1998[t,c] = (p.YGROSSCTRY[t,c] * v.DAMFRACTATMCTRY1998[t,c]) / (1. + v.DAMFRACTATMCTRY1998[t,c]) # DAMAGES from temperature changes
+                v.DAMAGESTATMCTRY1998[t,c] = (p.YGROSSctry[t,c] * v.DAMFRACTATMCTRY1998[t,c]) / (1. + v.DAMFRACTATMCTRY1998[t,c]) # DAMAGES from temperature changes
                 # v.DAMAGESSLR[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLR[t,r]) / (1. + v.DAMFRACSLR[t,r]) # DAMAGES from SLR
                 # v.DAMAGES[t,r] = v.DAMAGESTATM[t,r] + v.DAMAGESSLR[t,r] # Total DAMAGES
             end

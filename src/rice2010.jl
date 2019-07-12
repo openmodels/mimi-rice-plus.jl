@@ -154,8 +154,8 @@ function constructrice(p)
     connect_param!(m, :damages, :YGROSS, :grosseconomy, :YGROSS)
     connect_param!(m, :damages, :SLRDAMAGES, :sealeveldamages, :SLRDAMAGES)
 
-        # NEW: COUNTRY-LEVEL - YGROSSCTRY
-    connect_param!(m, :damages, :YGROSSCTRY, :grosseconomy, :YGROSSCTRY)
+        # NEW: COUNTRY-LEVEL - YGROSSctry
+    connect_param!(m, :damages, :YGROSSctry, :grosseconomy, :YGROSSctry)
 
     # NET ECONOMY COMPONENT
     set_param!(m, :neteconomy, :S, p[:savings])
