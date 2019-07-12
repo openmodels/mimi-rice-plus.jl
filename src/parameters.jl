@@ -86,6 +86,13 @@ function getrice2010parameters(filename)
     p[:n2] = getparam_single_ctry(f, "B2:B2", countries) # Damage linear term (country)
     p[:n3] = getparam_single_ctry(f, "C2:C2", countries) # Damage quadratic term (country)
 
+        # NEW: COUNTRY-LEVEL - coastal population share to determine SLR damages share
+    p[:coastalpopshare] = getparam_single_ctry(f, "B7:B7", countries) # Damage intercept (country)
+
+        # NEW: COUNTRY-LEVEL - GDP share
+    p[:gdpshare] = getparam_single_ctry(f, "B6:B6", countries) # GDP share of a country relative to the region GDP
+    p[:inregion] = getparam_single_ctry(f, "B5:B5", countries) # region to which the country belongs
+
     # Welfare Weights
     alpha0 = transpose(readxl(f, "Data!B359:BI370")) # Read in alpha
     p[:alpha] = convert(Array{Float64}, alpha0) # Convert to type used by Mimi

@@ -44,6 +44,10 @@ function constructrice(p)
     set_param!(m, :grosseconomy, :dk, p[:dk])
     set_param!(m, :grosseconomy, :k0, p[:k0])
 
+        # NEW: COUNTRY-LEVEL - GDP share
+    set_param!(m, :grosseconomy, :gdpshare, p[:gdpshare])
+    set_param!(m, :grosseconomy, :inregion, p[:inregion])
+
     # Note: offset=1 => dependence is on on prior timestep, i.e., not a cycle
     connect_param!(m, :grosseconomy, :I, :neteconomy, :I)
 
@@ -140,9 +144,18 @@ function constructrice(p)
     set_param!(m, :damages, :n2, p[:n2])
     set_param!(m, :damages, :n3, p[:n3])
 
+
+        # NEW: COUNTRY-LEVEL - coastal population share to determine SLR damages share
+    set_param!(m, :damages, :coastalpopshare, p[:coastalpopshare])
+    set_param!(m, :damages, :inregion, p[:inregion])
+    set_param!(m, :damages, :gdpshare, p[:gdpshare])
+
     connect_param!(m, :damages, :TATM, :climatedynamics, :TATM)
     connect_param!(m, :damages, :YGROSS, :grosseconomy, :YGROSS)
     connect_param!(m, :damages, :SLRDAMAGES, :sealeveldamages, :SLRDAMAGES)
+
+        # NEW: COUNTRY-LEVEL - YGROSSCTRY
+    connect_param!(m, :damages, :YGROSSCTRY, :grosseconomy, :YGROSSCTRY)
 
     # NET ECONOMY COMPONENT
     set_param!(m, :neteconomy, :S, p[:savings])

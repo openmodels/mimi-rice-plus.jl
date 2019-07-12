@@ -10,10 +10,13 @@ using .Rice2010
 m = getrice()
 run(m)
 
+# extract out the total welfare --> save it to a variable
+# repreduce ln 10-11 --> BUT change initial CO2 concentartion --> then run it
+
 explore(m)
 
 
-# NEW: export model output
+# NEW: export model output to make graphs
 
 # set output directory
 dir_output = "C:/Users/simon/Google Drive/Uni/LSE Master/02_Dissertation/10_Modelling/damage-regressions/data/mimi-rice-output/"
