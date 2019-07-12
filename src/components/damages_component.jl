@@ -22,9 +22,6 @@ using Distributions
     DAMAGESSLR = Variable(index=[time, regions]) # Damages from sea level rise (in trillions 2005 USD per year)
     DAMAGESTATMctryagg = Variable(index=[time, regions]) # REGION-LEVEL - CTRY level SLR damages aggregated back up to regions (trillions 2005 USD per year)
     DAMAGESSLRctryagg = Variable(index=[time, regions]) # REGION-LEVEL - CTRY level SLR damages aggregated back up to regions (trillions 2005 USD per year)
-    DAMAGESTATMnoexp10 = Variable(index=[time, regions]) # Damages from temperature change (in trillions 2005 USD per year) (Burke et al. component) - NO ^10
-    DAMAGESSLRnoexp10 = Variable(index=[time, regions]) # Damages from sea level rise (in trillions 2005 USD per year)  - NO ^10
-    DAMAGESnoexp10 = Variable(index=[time, regions]) # Damages (trillions 2005 USD per year)  - NO ^10
     DAMAGESctryagg = Variable(index=[time, regions]) # Damages (trillions 2005 USD per year)
 
     # NEW: COUNTRY-LEVEL - only temperature damages on a country-level
@@ -151,12 +148,9 @@ using Distributions
                 v.DAMAGESSLR[t,r] = p.YGROSS[t,r] * (1 - 1 / (1+v.DAMFRACSLR[t,r])) # DAMAGES from SLR
                 v.DAMAGES[t,r] = v.DAMAGESTATM[t,r] + v.DAMAGESSLR[t,r] # Total DAMAGES
             else
-                v.DAMAGESTATM[t,r] = (p.YGROSS[t,r] * v.DAMFRACTATM[t,r]) / (1. + v.DAMFRACTATM[t,r]^10) # DAMAGES from temperature changes
-                v.DAMAGESTATMnoexp10[t,r] = (p.YGROSS[t,r] * v.DAMFRACTATM[t,r]) / (1. + v.DAMFRACTATM[t,r]) # DAMAGES from temperature changes - NO ^10
-                v.DAMAGESSLR[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLR[t,r]) / (1. + v.DAMFRACSLR[t,r]^10) # DAMAGES from SLR
-                v.DAMAGESSLRnoexp10[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLR[t,r]) / (1. + v.DAMFRACSLR[t,r]) # DAMAGES from SLR - NO ^10
+                v.DAMAGESTATM[t,r] = (p.YGROSS[t,r] * v.DAMFRACTATM[t,r]) / (1. + v.DAMFRACTATM[t,r]) # DAMAGES from temperature changes
+                v.DAMAGESSLR[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLR[t,r]) / (1. + v.DAMFRACSLR[t,r]) # DAMAGES from SLR
                 v.DAMAGES[t,r] = v.DAMAGESTATM[t,r] + v.DAMAGESSLR[t,r] # Total DAMAGES
-                v.DAMAGESnoexp10[t,r] = v.DAMAGESTATMnoexp10[t,r] + v.DAMAGESSLRnoexp10[t,r] # Total DAMAGES
             end
         end
 
@@ -167,8 +161,8 @@ using Distributions
                 # v.DAMAGESSLR[t,r] = p.YGROSS[t,r] * (1 - 1 / (1+v.DAMFRACSLR[t,r])) # DAMAGES from SLR
                 # v.DAMAGES[t,r] = v.DAMAGESTATM[t,r] + v.DAMAGESSLR[t,r] # Total DAMAGES
             else
-                v.DAMAGESTATMCTRY[t,c] = (p.YGROSSCTRY[t,c] * v.DAMFRACTATMCTRY[t,c]) / (1. + v.DAMFRACTATMCTRY[t,c]^10) # DAMAGES from temperature changes
-                # v.DAMAGESSLR[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLR[t,r]) / (1. + v.DAMFRACSLR[t,r]^10) # DAMAGES from SLR
+                v.DAMAGESTATMCTRY[t,c] = (p.YGROSSCTRY[t,c] * v.DAMFRACTATMCTRY[t,c]) / (1. + v.DAMFRACTATMCTRY[t,c]) # DAMAGES from temperature changes
+                # v.DAMAGESSLR[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLR[t,r]) / (1. + v.DAMFRACSLR[t,r]) # DAMAGES from SLR
                 # v.DAMAGES[t,r] = v.DAMAGESTATM[t,r] + v.DAMAGESSLR[t,r] # Total DAMAGES
             end
         end
@@ -426,8 +420,8 @@ using Distributions
                 v.DAMAGESSLR1998[t,r] = p.YGROSS[t,r] * (1 - 1 / (1+v.DAMFRACSLR1998[t,r])) # DAMAGES from SLR
                 v.DAMAGES1998[t,r] = v.DAMAGESTATM1998[t,r] + v.DAMAGESSLR1998[t,r] # Total DAMAGES
             else
-                v.DAMAGESTATM1998[t,r] = (p.YGROSS[t,r] * v.DAMFRACTATM1998[t,r]) / (1. + v.DAMFRACTATM1998[t,r]^10) # DAMAGES from temperature changes
-                v.DAMAGESSLR1998[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLR1998[t,r]) / (1. + v.DAMFRACSLR1998[t,r]^10) # DAMAGES from SLR
+                v.DAMAGESTATM1998[t,r] = (p.YGROSS[t,r] * v.DAMFRACTATM1998[t,r]) / (1. + v.DAMFRACTATM1998[t,r]) # DAMAGES from temperature changes
+                v.DAMAGESSLR1998[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLR1998[t,r]) / (1. + v.DAMFRACSLR1998[t,r]) # DAMAGES from SLR
                 v.DAMAGES1998[t,r] = v.DAMAGESTATM1998[t,r] + v.DAMAGESSLR1998[t,r] # Total DAMAGES
             end
         end
@@ -440,8 +434,8 @@ using Distributions
                 # v.DAMAGESSLR[t,r] = p.YGROSS[t,r] * (1 - 1 / (1+v.DAMFRACSLR[t,r])) # DAMAGES from SLR
                 # v.DAMAGES[t,r] = v.DAMAGESTATM[t,r] + v.DAMAGESSLR[t,r] # Total DAMAGES
             else
-                v.DAMAGESTATMCTRY1998[t,c] = (p.YGROSSCTRY[t,c] * v.DAMFRACTATMCTRY1998[t,c]) / (1. + v.DAMFRACTATMCTRY1998[t,c]^10) # DAMAGES from temperature changes
-                # v.DAMAGESSLR[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLR[t,r]) / (1. + v.DAMFRACSLR[t,r]^10) # DAMAGES from SLR
+                v.DAMAGESTATMCTRY1998[t,c] = (p.YGROSSCTRY[t,c] * v.DAMFRACTATMCTRY1998[t,c]) / (1. + v.DAMFRACTATMCTRY1998[t,c]) # DAMAGES from temperature changes
+                # v.DAMAGESSLR[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLR[t,r]) / (1. + v.DAMFRACSLR[t,r]) # DAMAGES from SLR
                 # v.DAMAGES[t,r] = v.DAMAGESTATM[t,r] + v.DAMAGESSLR[t,r] # Total DAMAGES
             end
         end
@@ -454,8 +448,8 @@ using Distributions
                 v.DAMAGESSLROLD[t,r] = p.YGROSS[t,r] * (1 - 1 / (1+v.DAMFRACSLROLD[t,r])) # DAMAGES from SLR
                 v.DAMAGESOLD[t,r] = v.DAMAGESTATMOLD[t,r] + v.DAMAGESSLROLD[t,r] # Total DAMAGES
             else
-                v.DAMAGESTATMOLD[t,r] = (p.YGROSS[t,r] * v.DAMFRACTATMOLD[t,r]) / (1. + v.DAMFRACTATMOLD[t,r]^10) # DAMAGES from temperature changes
-                v.DAMAGESSLROLD[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLROLD[t,r]) / (1. + v.DAMFRACSLROLD[t,r]^10) # DAMAGES from SLR
+                v.DAMAGESTATMOLD[t,r] = (p.YGROSS[t,r] * v.DAMFRACTATMOLD[t,r]) / (1. + v.DAMFRACTATMOLD[t,r]) # DAMAGES from temperature changes
+                v.DAMAGESSLROLD[t,r] = (p.YGROSS[t,r] * v.DAMFRACSLROLD[t,r]) / (1. + v.DAMFRACSLROLD[t,r]) # DAMAGES from SLR
                 v.DAMAGESOLD[t,r] = v.DAMAGESTATMOLD[t,r] + v.DAMAGESSLROLD[t,r] # Total DAMAGES
             end
         end
