@@ -10,14 +10,15 @@ using .Rice2010
 m = getrice()
 run(m)
 
+# extract out the total welfare --> save it to a variable
+# reproduce ln 10-11 --> BUT change initial CO2 concentartion --> then run it
+
 # Set the model version manually in the following components:
 # 1) grosseconomy
 
 # # SET MODEL VERSION
 # global modelversion = "region"      # "region" (default), "country", "original"
 
-# extract out the total welfare --> save it to a variable
-# repreduce ln 10-11 --> BUT change initial CO2 concentartion --> then run it
 
 explore(m)
 

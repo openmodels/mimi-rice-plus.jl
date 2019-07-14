@@ -192,6 +192,12 @@ function constructrice(p)
 
     connect_param!(m, :welfare, :CPC, :neteconomy, :CPC)
 
+                # NEW: COUNTRY-LEVEL - Per Capita Consumption
+                set_param!(m, :welfare, :inregion, p[:inregion])
+
+                connect_param!(m, :welfare, :CPCctry, :neteconomy, :CPCctry)
+                connect_param!(m, :welfare, :lctry, :neteconomy, :lctry)
+
     return m
 end #function
 
