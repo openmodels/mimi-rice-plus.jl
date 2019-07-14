@@ -1,5 +1,8 @@
 using Mimi
 
+# SET MODEL VERSION
+global modelversion = "country"      # "region" (default), "country", "original"
+
 @defcomp grosseconomy begin
     regions = Index()
     countries = Index()
@@ -14,10 +17,13 @@ using Mimi
     dk = Parameter(index=[regions]) # Depreciation rate on capital (per year)
     k0 = Parameter(index=[regions]) # Initial capital value (trill 2005 USD)
 
-    #     # NEW: COUNTRY-LEVEL
+         # NEW: COUNTRY-LEVEL
     YGROSSctry = Variable(index=[time, countries]) # Gross domestic product GROSS of abatement and damages (trillions 2005 USD per year)
     gdpshare = Parameter(index=[countries]) # GDP share of a country relative to the region GDP
     inregion = Parameter(index=[countries]) # attributing a country to the region it belongs to
+
+        # NEW: REGION-LEVEL
+    Ictryagg = Parameter(index=[time, regions]) # Investment (trillions 2005 USD per year)
 
     # TODO remove this, just a temporary output trick
     L = Variable(index=[time, regions])
@@ -28,7 +34,13 @@ using Mimi
             if is_first(t)
                 v.K[t,r] = p.k0[r]
             else
-                v.K[t,r] = (1 - p.dk[r])^10 * v.K[t-1,r] + 10 * p.I[t-1,r] # how do I get region-level investment
+                if modelversion == "region"
+                    v.K[t,r] = (1 - p.dk[r])^10 * v.K[t-1,r] + 10 * p.I[t-1,r] # how do I get region-level investment
+                elseif modelversion == "country"
+                    v.K[t,r] = (1 - p.dk[r])^10 * v.K[t-1,r] + 10 * p.Ictryagg[t-1,r] # how do I get region-level investment
+                else
+                    println("modelversion is not correctly defined")
+                end
             end
         end
 

@@ -51,6 +51,9 @@ function constructrice(p)
     # Note: offset=1 => dependence is on on prior timestep, i.e., not a cycle
     connect_param!(m, :grosseconomy, :I, :neteconomy, :I)
 
+        # NEW: REGION-LEVEL - INVESTMENT
+    connect_param!(m, :grosseconomy, :Ictryagg, :neteconomy, :Ictryagg)
+
     # EMISSIONS COMPONENT
     set_param!(m, :emissions, :sigma, p[:sigma])
     set_param!(m, :emissions, :MIU, p[:MIU])
@@ -62,6 +65,10 @@ function constructrice(p)
     set_param!(m, :emissions, :pbacktime, p[:pbacktime])
 
     connect_param!(m, :emissions, :YGROSS, :grosseconomy, :YGROSS)
+
+    # NEW: COUNTRY-LEVEL - YGROSSctry
+    connect_param!(m, :emissions, :YGROSSctry, :grosseconomy, :YGROSSctry)
+    set_param!(m, :emissions, :inregion, p[:inregion])
 
     # CO2 CYCLE COMPONENT
     set_param!(m, :co2cycle, :mat0, p[:mat0])
@@ -165,6 +172,15 @@ function constructrice(p)
     connect_param!(m, :neteconomy, :DAMFRAC, :damages, :DAMFRAC)
     connect_param!(m, :neteconomy, :DAMAGES, :damages, :DAMAGES)
     connect_param!(m, :neteconomy, :ABATECOST, :emissions, :ABATECOST)
+
+            # NEW: COUNTRY-LEVEL - YGROSSctry
+            set_param!(m, :neteconomy, :inregion, p[:inregion])
+            set_param!(m, :neteconomy, :popshare, p[:popshare])
+
+            connect_param!(m, :neteconomy, :YGROSSctry, :grosseconomy, :YGROSSctry)
+            connect_param!(m, :neteconomy, :DAMFRACCTRY, :damages, :DAMFRACCTRY)
+            connect_param!(m, :neteconomy, :DAMAGESCTRY, :damages, :DAMAGESCTRY)
+            connect_param!(m, :neteconomy, :ABATECOSTctry, :emissions, :ABATECOSTctry)
 
     # WELFARE COMPONENT
     set_param!(m, :welfare, :l, p[:l])
