@@ -4,8 +4,8 @@ using Mimi
     regions = Index()
     countries = Index()
 
-    E = Variable(index=[time]) # Total CO2 emissions (GtCO2 per year)
-    EIND = Variable(index=[time, regions]) # Industrial emissions (GtCO2 per year)
+    E = Variable(index=[time]) # Total CO2 emissions (GtC per year)
+    EIND = Variable(index=[time, regions]) # Industrial emissions (GtC per year)
     CCA = Variable(index=[time]) # Cumulative indiustrial emissions
     ABATECOST = Variable(index=[time, regions]) # Cost of emissions reductions  (trillions 2005 USD per year)
     MCABATE = Variable(index=[time, regions]) # Marginal cost of abatement (2005$ per ton CO2)
@@ -25,6 +25,9 @@ using Mimi
     YGROSSctry = Parameter(index=[time, countries]) # Gross world product GROSS of abatement and damages (trillions 2005 USD per year)
     inregion = Parameter(index=[countries]) # attributing a country to the region it belongs to
 
+    marginalemission = Parameter() # "1" if there is an additional marginal emissions pulse, "0" otherwise
+
+
     function run_timestep(p, v, d, t)
 
         #Define function for EIND
@@ -33,7 +36,17 @@ using Mimi
         end
 
         #Define function for E
-        v.E[t] = sum(v.EIND[t,:]) + p.etree[t]
+        if p.marginalemission == 0
+            v.E[t] = sum(v.EIND[t,:]) + p.etree[t]
+        elseif p.marginalemission == 1
+            if t.t == 2
+                v.E[t] = sum(v.EIND[t,:]) + p.etree[t] + 1
+            else
+                v.E[t] = sum(v.EIND[t,:]) + p.etree[t]
+            end
+        else
+            println("no marginal emissions")
+        end
 
         #Define function for CCA
         if is_first(t)

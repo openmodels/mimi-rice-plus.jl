@@ -3,6 +3,7 @@ module Rice2010
 using Mimi
 
 include("parameters.jl")
+# include("marginaldamage.jl") that's not working -->  do not include
 
 include("components/climatedynamics_component.jl")
 include("components/co2cycle_component.jl")
