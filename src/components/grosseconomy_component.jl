@@ -1,7 +1,7 @@
 using Mimi
 
 # SET MODEL VERSION
-global modelversion = "country"      # "region" (default), "country", "original"
+global modelversion = "region"      # "region" (default), "country", [perhaps add "original"]
 
 @defcomp grosseconomy begin
     regions = Index()
@@ -35,9 +35,9 @@ global modelversion = "country"      # "region" (default), "country", "original"
                 v.K[t,r] = p.k0[r]
             else
                 if modelversion == "region"
-                    v.K[t,r] = (1 - p.dk[r])^10 * v.K[t-1,r] + 10 * p.I[t-1,r] # how do I get region-level investment
+                    v.K[t,r] = (1 - p.dk[r])^10 * v.K[t-1,r] + 10 * p.I[t-1,r] # using original region-level investment
                 elseif modelversion == "country"
-                    v.K[t,r] = (1 - p.dk[r])^10 * v.K[t-1,r] + 10 * p.Ictryagg[t-1,r] # how do I get region-level investment
+                    v.K[t,r] = (1 - p.dk[r])^10 * v.K[t-1,r] + 10 * p.Ictryagg[t-1,r] # using country aggregated region-level investment
                 else
                     println("modelversion is not correctly defined")
                 end
