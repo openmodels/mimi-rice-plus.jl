@@ -25,6 +25,7 @@ using Mimi
     YGROSSctry = Parameter(index=[time, countries]) # Gross world product GROSS of abatement and damages (trillions 2005 USD per year)
     inregion = Parameter(index=[countries]) # attributing a country to the region it belongs to
 
+    # NEW: Marginal emission for SCC calculation
     marginalemission = Parameter() # "1" if there is an additional marginal emissions pulse, "0" otherwise
 
 

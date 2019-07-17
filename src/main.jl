@@ -22,11 +22,12 @@ m = getrice()
 marginalemission = 0    # 1 = additional emission pulse; 0 otherwise
 set_param!(m,:emissions,:marginalemission,marginalemission)
 
+marginalconsumption = 0    # 1 = additional consumption pulse; 0 otherwise
+set_param!(m,:neteconomy,:marginalconsumption,marginalconsumption)
+
 run(m)
 
 # extract out the total welfare --> save it to a variable
-# reproduce ln 10-11 --> BUT change initial CO2 concentration --> then run it
-
 
         damagebase = m[:damages,:DAMAGES]
         println("damagebase")
@@ -40,6 +41,15 @@ run(m)
         println("damagebaseOLD")
         println(damagebaseOLD)
 
+
+        # welfarebase = m[:welfare,:REGUTILITYNOnegishiNOrescale]
+        # println("welfarebase")
+        # println(welfarebase)
+        #
+        # consumptionbase = m[:neteconomy,:C2015]
+        # println("consumptionbase")
+        # println(consumptionbase)
+
 explore(m)
 
 
@@ -51,6 +61,9 @@ m = getrice()
 
 marginalemission = 1    # 1 = additional emission pulse; 0 otherwise
 set_param!(m,:emissions,:marginalemission,marginalemission)
+
+marginalconsumption = 0    # 1 = additional consumption pulse; 0 otherwise
+set_param!(m,:neteconomy,:marginalconsumption,marginalconsumption)
 
 run(m)
 
@@ -108,6 +121,15 @@ run(m)
         println("SCC Burke regions")
         println(SCC)
 
+
+        # welfareadd_emissions = m[:welfare,:REGUTILITYNOnegishiNOrescale]
+        # println("welfareadd_emissions")
+        # println(welfareadd_emissions)
+        #
+        # welfare_change_emissions = welfarebase.-welfareadd_emissions
+        # println("welfare_change_emissions")
+        # println(welfare_change_emissions)
+
         # println("SCC with return")
         # return scc
 
@@ -161,42 +183,38 @@ run(m)
 explore(m)
 
 
+# This SCC calculation based on the consumption pulse is not giving plausible results
 
-        # Tried to implement it like Anthoff but didn't work
-            # function getmarginal_rice_models(;emissionyear=2015,datafile=joinpath(@__DIR__, "..", "data", "RICE_2010_base_000_v1.1s.xlsm"))
+# ######################################################################################################################
+# ####  Model with additional consumption pulse  #######################################################################
+# ######################################################################################################################
+#
+#
+# m = getrice()
+#
+# marginalemission = 0    # 1 = additional emission pulse; 0 otherwise
+# set_param!(m,:emissions,:marginalemission,marginalemission)
+#
+# marginalconsumption = 1    # 1 = additional consumption pulse; 0 otherwise
+# set_param!(m,:neteconomy,:marginalconsumption,marginalconsumption)
+#
+# run(m)
+#
+#
+# #### SCC based on region welfare ##############################################################################################################################
+#
+#         welfareadd_consumption = m[:welfare,:REGUTILITYNOnegishiNOrescale]
+#         println("welfareadd_consumption")
+#         println(welfareadd_consumption)
+#
+#         welfare_change_consumption = welfareadd_consumption.-welfarebase
+#         println("welfare_change_consumption")
+#         println(welfare_change_consumption)
+#
+#         SCC_welfare = ((welfare_change_emissions * 10^(-9)) ./ (welfare_change_consumption * 10^(-6))) * 12/44
+#         println("SCC_welfare")
+#         println(SCC_welfare)
 
-
-
-                # m = getrice()
-                #
-                #                     # p[:marginalemission] = 1
-                #                     # set_param!(m, :emissions, :marginalemission, p[:marginalemission])
-                #                     #
-                #                     # function getrice2010parameters(filename)
-                #                     #     p = Dict{Symbol,Any}()
-                #                     #
-                #                     #     p[:marginalemission] = 1
-                #                     #     set_param!(m, :emissions, :marginalemission, p[:marginalemission])                                #
-                #                     #     return p
-                #                     # end
-                #
-                #
-                #
-                #                     # add_comp!(m, Mimi.adder, :marginalemission, before=:co2cycle)
-                #                     #
-                #                     # time = Mimi.dimension(m, :time)
-                #                     # addem = zeros(length(60))
-                #                     # addem[time[2015]] = 1000000000000000000.0
-                #                     #
-                #                     # set_param!(m,:marginalemission,:add,addem)
-                #                     # connect_param!(m,:marginalemission,:input,:emissions,:E)
-                #                     # connect_param!(m, :co2cycle,:E,:marginalemission,:output)
-                #
-                # run(m)
-                #
-                # explore(m)
-
-            # end
 
 
 # NEW: export model output to make graphs

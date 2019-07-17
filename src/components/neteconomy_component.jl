@@ -45,6 +45,12 @@ global damagefunction = "Burke"      # "Burke" (default), "Original"
                 DAMFRACOLD = Parameter(index=[time, regions]) # Damages as fraction of gross output (calculated via Original RICE damage function)
                 DAMAGESOLD = Parameter(index=[time, regions]) # Damages (trillions 2005 USD per year) (calculated via Original RICE damage function)
 
+                # NEW: Consumption in 2015 (for SCC caclualtion)
+                C2015 = Variable(index=[regions]) # Consumption (trillions 2005 US dollars per year)
+
+                # NEW: Marginal consumption for SCC calculation
+                marginalconsumption = Parameter() # "1" if there is an additional marginal consumption pulse, "0" otherwise
+
     function run_timestep(p, v, d, t)
 
         #Define function for YNET
@@ -168,12 +174,41 @@ global damagefunction = "Burke"      # "Burke" (default), "Original"
                         end
                     end
 
-        #Define function for C
+        # #Define function for C
+        # for r in d.regions
+        #     if t.t != 60
+        #         v.C[t,r] = v.Y[t,r] - v.I[t,r]
+        #     else
+        #         v.C[t,r] = v.C[t-1, r]
+        #     end
+        # end
+
         for r in d.regions
-            if t.t != 60
-                v.C[t,r] = v.Y[t,r] - v.I[t,r]
+            if p.marginalconsumption == 0
+                if t.t != 60
+                    v.C[t,r] = v.Y[t,r] - v.I[t,r]
+                else
+                    v.C[t,r] = v.C[t-1, r]
+                end
+            elseif p.marginalconsumption == 1
+                if t.t != 60
+                    if t.t == 2
+                        v.C[t,r] = v.Y[t,r] - v.I[t,r] + 10^(-6)  # consumption pulse of 1 million $ (10^(-6) to get from trillions to millions)
+                    else
+                        v.C[t,r] = v.Y[t,r] - v.I[t,r]
+                    end
+                else
+                    v.C[t,r] = v.C[t-1, r]
+                end
             else
-                v.C[t,r] = v.C[t-1, r]
+                println("marginal consumption not correctly defined")
+            end
+        end
+
+        # Consumption in 2015 (for SCC calculation)
+        if t.t == 2
+            for r in d.regions
+                v.C2015[r] = v.C[t,r]
             end
         end
 
