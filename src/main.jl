@@ -10,9 +10,7 @@ using .Rice2010
 
 # Set the model version manually in the following components:
 # 1) grosseconomy
-
-        # OLD: # SET MODEL VERSION
-        # global modelversion = "region"      # "region" (default), "country", "original"
+# 2) neteconomy
 
 
 ######################################################################################################################

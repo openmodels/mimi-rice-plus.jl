@@ -183,6 +183,10 @@ function constructrice(p)
             connect_param!(m, :neteconomy, :DAMAGESCTRY, :damages, :DAMAGESCTRY)
             connect_param!(m, :neteconomy, :ABATECOSTctry, :emissions, :ABATECOSTctry)
 
+            # OLD: Original RICE model
+            connect_param!(m, :neteconomy, :DAMFRACOLD, :damages, :DAMFRACOLD)
+            connect_param!(m, :neteconomy, :DAMAGESOLD, :damages, :DAMAGESOLD)
+
     # WELFARE COMPONENT
     set_param!(m, :welfare, :l, p[:l])
     set_param!(m, :welfare, :elasmu, p[:elasmu])

@@ -1,5 +1,7 @@
 using Mimi
 
+global damagefunction = "Burke"      # "Burke" (default), "Original"
+
 @defcomp neteconomy begin
     regions = Index()
     countries = Index() # NEW: COUNTRY-LEVEL
@@ -40,14 +42,27 @@ using Mimi
                 S = Parameter(index=[time, regions]) # Gross savings rate as fraction of gross world product
                 l = Parameter(index=[time, regions]) # Level of population and labor
 
+                DAMFRACOLD = Parameter(index=[time, regions]) # Damages as fraction of gross output (calculated via Original RICE damage function)
+                DAMAGESOLD = Parameter(index=[time, regions]) # Damages (trillions 2005 USD per year) (calculated via Original RICE damage function)
+
     function run_timestep(p, v, d, t)
 
         #Define function for YNET
         for r in d.regions
-            if is_first(t)
-                v.YNET[t,r] = p.YGROSS[t,r]/(1+p.DAMFRAC[t,r])
+            if damagefunction == "Burke"
+                if is_first(t)
+                    v.YNET[t,r] = p.YGROSS[t,r]/(1+p.DAMFRAC[t,r])
+                else
+                    v.YNET[t,r] = p.YGROSS[t,r] - p.DAMAGES[t,r]
+                end
+            elseif damagefunction == "Original"
+                if is_first(t)
+                    v.YNET[t,r] = p.YGROSS[t,r]/(1+p.DAMFRACOLD[t,r])
+                else
+                    v.YNET[t,r] = p.YGROSS[t,r] - p.DAMAGESOLD[t,r]
+                end
             else
-                v.YNET[t,r] = p.YGROSS[t,r] - p.DAMAGES[t,r]
+                println("Damage function not correctly specified")
             end
         end
 
