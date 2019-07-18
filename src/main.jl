@@ -138,25 +138,26 @@ run(m)
         # println("consumptionadd")
         # println(consumptionadd)
 
-        marginal_consumption = (consumptionadd.-consumptionbase) * 10^(-9) * 10^12 * 12/44 * -1 # convert from trillion $/Gt C to $/ton CO2 (10^-9: Gt C -> tons C; 10^12: trillon $ -> $; 12/44: C -> CO2); ; multiply by -1 to get positive value for damages
-        println("marginal_consumption")
-        println(marginal_consumption)
+        marginal_consumption_region = (consumptionadd.-consumptionbase) * 10^(-9) * 10^12 * 12/44 * -1 # convert from trillion $/Gt C to $/ton CO2 (10^-9: Gt C -> tons C; 10^12: trillon $ -> $; 12/44: C -> CO2); ; multiply by -1 to get positive value for damages
+        println("marginal_consumption_region")
+        println(marginal_consumption_region)
 
-        writedlm(string(dir_output, "marginal.consumption2.csv"), marginal_consumption, ',')
+        writedlm(string(dir_output, "marginal_consumption_region.csv"), marginal_consumption_region, ',')
 
         # CSV.write("C:/Users/simon/Google Drive/Uni/LSE Master/02_Dissertation/10_Modelling/damage-regressions/data/mimi-rice-output/marginal.consumption.csv", marginal_consumption)
 
-                        SCC_consumption_region = zeros(1,12)
-                        SCC_consumption_region = sum(df * marginal_consumption * 10)  # currently implemented as a 10year step function; so each timestep of discounted marginal damages is multiplied by 10
-                        println("SCC_consumption_region")
-                        println(SCC_consumption_region)
+                        # regional SCC -> NOT WORKING
+                        # SCC_consumption_region = zeros(1,12)
+                        # SCC_consumption_region = sum(df * marginal_consumption * 10)  # currently implemented as a 10year step function; so each timestep of discounted marginal damages is multiplied by 10
+                        # println("SCC_consumption_region")
+                        # println(SCC_consumption_region)
 
-        global_marginal_consumption = dropdims(sum(marginal_consumption, dims = 2), dims=2)
-        println("global_marginal_consumption")
-        println(global_marginal_consumption)
+        global_marginal_consumption_region = dropdims(sum(marginal_consumption_region, dims = 2), dims=2)
+        println("global_marginal_consumption_region")
+        println(global_marginal_consumption_region)
 
         SCC_consumption_region = zeros(1,1)
-        SCC_consumption_region = sum(df * global_marginal_consumption * 10)  # currently implemented as a 10year step function; so each timestep of discounted marginal damages is multiplied by 10
+        SCC_consumption_region = sum(df * global_marginal_consumption_region * 10)  # currently implemented as a 10year step function; so each timestep of discounted marginal damages is multiplied by 10
         println("SCC_consumption_region")
         println(SCC_consumption_region)
 
@@ -201,16 +202,16 @@ run(m)
         # println("consumptionaddctry")
         # println(consumptionaddctry)
 
-        marginal_consumptionctry = (consumptionaddctry.-consumptionbasectry) *10^(-9) * 10^12 * 12/44 * -1 # convert from trillion $/Gt C to $/ton CO2 (10^-9: Gt C -> tons C; 10^12: trillon $ -> $; 12/44: C -> CO2); multiply by -1 to get positive value for damages
+        marginal_consumption_ctry = (consumptionaddctry.-consumptionbasectry) *10^(-9) * 10^12 * 12/44 * -1 # convert from trillion $/Gt C to $/ton CO2 (10^-9: Gt C -> tons C; 10^12: trillon $ -> $; 12/44: C -> CO2); multiply by -1 to get positive value for damages
         # println("marginal_consumptionctry")
         # println(marginal_consumptionctry)
 
-        global_marginal_consumptionctry = dropdims(sum(marginal_consumptionctry, dims = 2), dims=2)
-        println("global_marginal_consumptionctry")
-        println(global_marginal_consumptionctry)
+        global_marginal_consumption_ctry = dropdims(sum(marginal_consumption_ctry, dims = 2), dims=2)
+        println("global_marginal_consumption_ctry")
+        println(global_marginal_consumption_ctry)
 
         SCC_consumption_countries = zeros(1,1)
-        SCC_consumption_countries = sum(df * global_marginal_consumptionctry * 10)  # currently implemented as a 10year step function; so each timestep of discounted marginal consumption is multiplied by 10
+        SCC_consumption_countries = sum(df * global_marginal_consumption_ctry * 10)  # currently implemented as a 10year step function; so each timestep of discounted marginal consumption is multiplied by 10
         println("SCC_consumption_countries")
         println(SCC_consumption_countries)
 
