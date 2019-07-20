@@ -1,13 +1,11 @@
 using Test
+using MimiRICE2010
 using ExcelReaders
 using Mimi
 using DataFrames
-using CSV
+using CSVFiles
 
-include("../src/rice2010.jl")
-using .Rice2010
-
-m = getrice()
+m = MimiRICE2010.get_model()
 run(m)
 
 parameter_filename = joinpath(@__DIR__, "..", "data", "RICE_2010_base_000.xlsm")
@@ -28,9 +26,9 @@ function Truth(range::AbstractString)
 end
 
 # Test Precision
-Precision = 1.0e-11
+Precision = 1.0e-10
 
-@testset "mimi-rice-2010" begin
+@testset "MimiRICE2010" begin
 
 #------------------------------------------------------------------------------
 #   1. Run tests on the whole model
@@ -96,22 +94,24 @@ end #mimi-rice-2010-model testset
 nullvalue = -999.999
 
 for c in map(name, Mimi.compdefs(m)), v in Mimi.variable_names(m, c)
-    
+
     #load data for comparison
     filepath = joinpath(@__DIR__, "..", "data", "validation_data_v040", "$c-$v.csv")
     results = m[c, v]
 
+    df = load(filepath) |> DataFrame
     if typeof(results) <: Number
-        validation_results = CSV.read(filepath)[1,1]
-        
-    else
-        validation_results = convert(Array, CSV.read(filepath))
+        validation_results = df[1,1]
 
-        #remove NaNs
+    else
+        validation_results = convert(Array, df)
+
+        #remove NaNs and Missings
         results[ismissing.(results)] .= nullvalue
         results[isnan.(results)] .= nullvalue
+        validation_results[ismissing.(validation_results)] .= nullvalue
         validation_results[isnan.(validation_results)] .= nullvalue
-        
+
         #match dimensions
         if size(validation_results,1) == 1
             validation_results = validation_results'
@@ -119,11 +119,45 @@ for c in map(name, Mimi.compdefs(m)), v in Mimi.variable_names(m, c)
     end
 
     @test results ≈ validation_results atol = Precision
-    
+
 end #for loop
 
 end #mimi-rice-2010-integration testset
 
-end #mimi-rice-2010 testset
+@testset "Standard API functions" begin 
 
-nothing
+m = MimiRICE2010.get_model()
+run(m)
+
+# Test the errors
+@test_throws ErrorException MimiRICE2010.compute_scc()  # test that it errors if you don't specify a year
+@test_throws ErrorException MimiRICE2010.compute_scc(year=2020)  # test that it errors if the year isn't in the time index
+@test_throws ErrorException MimiRICE2010.compute_scc(last_year=2300)  # test that it errors if the last_year isn't in the time index
+@test_throws ErrorException MimiRICE2010.compute_scc(year=2105, last_year=2100)  # test that it errors if the year is after last_year
+
+# Test the SCC 
+scc1 = MimiRICE2010.compute_scc(year=2015)
+@test scc1 isa Float64
+
+# Test that it's smaller with a shorter horizon
+scc2 = MimiRICE2010.compute_scc(year=2015, last_year=2295)
+@test scc2 < scc1
+
+# Test that it's smaller with a smaller prtp
+scc3 = MimiRICE2010.compute_scc(year=2015, last_year=2295, prtp=0.02)
+@test scc3 < scc2
+
+# Test with a modified model 
+m = MimiRICE2010.get_model()
+update_param!(m, :t2xco2, 5)    
+scc4 = MimiRICE2010.compute_scc(m, year=2015)
+@test scc4 > scc1   # Test that a higher value of climate sensitivty makes the SCC bigger
+
+# Test compute_scc_mm
+result = MimiRICE2010.compute_scc_mm(year=2035)
+@test result.scc isa Float64
+@test result.mm isa Mimi.MarginalModel
+
+end
+
+end #mimi-rice-2010 testset

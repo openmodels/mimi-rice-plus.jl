@@ -1,12 +1,10 @@
-using Mimi
-
 @defcomp co2cycle begin
     MAT = Variable(index=[time]) # Carbon concentration increase in atmosphere (GtC from 1750)
     MATSUM = Variable(index=[time]) # Sum of MAT[t] and MAT[t+1] to use in FORC[t] for radiativeforcing component
     MU = Variable(index=[time]) # Carbon concentration increase in shallow oceans (GtC from 1750)
     ML = Variable(index=[time]) # Carbon concentration increase in lower oceans (GtC from 1750)
 
-    E = Parameter(index=[time]) # Total CO2 emissions (GtCO2 per year)
+    E = Parameter(index=[time]) # Total CO2 emissions (GtC per year)
     mat0 = Parameter() # Initial Concentration in atmosphere 2010 (GtC)
     mat1 = Parameter()
     mu0 = Parameter() # Initial Concentration in upper strata 2010 (GtC)
