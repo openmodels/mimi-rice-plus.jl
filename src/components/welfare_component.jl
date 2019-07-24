@@ -561,7 +561,7 @@ using Mimi
                                         end
                                     end
 
-                                    # NEW: COUNTRY-LEVEL - Define function for REGCUMCEMUTOTPER (without NEGISHI weights)  - PER CAPITA
+                                    # NEW: PER CAPITA: COUNTRY-LEVEL - Define function for REGCUMCEMUTOTPER (without NEGISHI weights)  - PER CAPITA
                                     for c in d.countries
                                         if is_first(t)
                                             v.REGCUMCEMUTOTPERctryNOnegishiPC[t,c] = v.CEMUTOTPERctryNOnegishiPC[t,c]
@@ -633,7 +633,7 @@ using Mimi
                                                 end
 
                                                 if t.t == 60
-                                                    #Define function for REGUTILITY (NO NEGISHI WEIGHTS & NO RESCALING) - PER CAPITA
+                                                    #NEW: PER CAPITA - Define function for REGUTILITY (NO NEGISHI WEIGHTS & NO RESCALING) - PER CAPITA
                                                     for r in d.regions
                                                         v.REGUTILITYNOnegishiNOrescalePC[r] = v.REGCUMCEMUTOTPERNOnegishiPC[t,r]
                                                     end

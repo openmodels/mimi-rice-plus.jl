@@ -30,6 +30,14 @@ set_param!(m,:neteconomy,:marginalconsumption,marginalconsumption)
 
 run(m)
 
+# NEW: export model output to make graphs
+
+# export variable values
+writedlm(string(dir_output, "damfractatm.csv"), m[:damages, :DAMFRACTATM], ",")
+writedlm(string(dir_output, "damfractatmctry.csv"), m[:damages, :DAMFRACTATMCTRY], ",")
+writedlm(string(dir_output, "lctry.csv"), m[:neteconomy, :lctry], ",")
+writedlm(string(dir_output, "l.csv"), m[:neteconomy, :l], ",")
+
 # extract out the total welfare --> save it to a variable
 
         damagebase = m[:damages,:DAMAGES]
@@ -82,15 +90,15 @@ run(m)
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!! Manually set the discount rate and compute the discount factor !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-                discountingbegin2005 = 2015
+                discountingbegin = 2015
                 dr = 0.03      # manually set the discount rate here
                 df = zeros(1, 60)
 
-                if discountingbegin2005 == 2005
+                if discountingbegin == 2005
                         for t in 1:1:60
                                 df[t] = 1/(1+dr)^(10(t-1))
                         end
-                elseif discountingbegin2005 == 2015
+                elseif discountingbegin == 2015
                         for t in 1:1:60
                             if t == 1
                                 df[t] = 1
@@ -276,10 +284,3 @@ explore(m)
                         #         SCC_welfare = ((welfare_change_emissions * 10^(-9)) ./ (welfare_change_consumption * 10^(-6))) * 12/44
                         #         println("SCC_welfare")
                         #         println(SCC_welfare)
-
-
-
-# NEW: export model output to make graphs
-
-# export variable values
-writedlm(string(dir_output, "damfractatm.csv"), m[:damages, :DAMFRACTATM], ",") #DAMFRACTATM

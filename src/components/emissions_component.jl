@@ -41,7 +41,7 @@ using Mimi
             v.E[t] = sum(v.EIND[t,:]) + p.etree[t]
         elseif p.marginalemission == 1
             if t.t == 2
-                v.E[t] = sum(v.EIND[t,:]) + p.etree[t] + 1
+                v.E[t] = sum(v.EIND[t,:]) + p.etree[t] + 1 # additional emissions pulse of 1 Gt in 2015 (period 2)
             else
                 v.E[t] = sum(v.EIND[t,:]) + p.etree[t]
             end
