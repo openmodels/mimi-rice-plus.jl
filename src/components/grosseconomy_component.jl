@@ -1,7 +1,7 @@
 using Mimi
 
 # SET MODEL VERSION
-global modelversion = "region"      # "region" (default), "country", [perhaps add "original"]
+global modelversion = "country"      # "region" (default), "country", [perhaps add "original"]
 
 @defcomp grosseconomy begin
     regions = Index()

@@ -13,7 +13,7 @@ using .Rice2010
 # 2) neteconomy
 
 # set output directory
-dir_output = "C:/Users/simon/Google Drive/Uni/LSE Master/02_Dissertation/10_Modelling/damage-regressions/data/mimi-rice-output/"
+dir_output = "C:/Users/simon/Google Drive/Uni/LSE Master/02_Dissertation/10_Modelling/damage-regressions/data/mimi-rice-output/temporary/"
 
 
 ######################################################################################################################
@@ -32,13 +32,96 @@ run(m)
 
 # NEW: export model output to make graphs
 
-# export variable values
-writedlm(string(dir_output, "damfractatm.csv"), m[:damages, :DAMFRACTATM], ",")
-writedlm(string(dir_output, "damfractatmctry.csv"), m[:damages, :DAMFRACTATMCTRY], ",")
+############################################################################
+#### Export variable values ################################################
+############################################################################
+
+# Climate Dynamics
+writedlm(string(dir_output, "TATM.csv"), m[:climatedynamics, :TATM], ",")
+
+# DAMAGES
+writedlm(string(dir_output, "DAMAGES.csv"), m[:damages, :DAMAGES], ",")
+writedlm(string(dir_output, "DAMAGESCTRY.csv"), m[:damages, :DAMAGESCTRY], ",")
+writedlm(string(dir_output, "DAMAGESctryagg.csv"), m[:damages, :DAMAGESctryagg], ",")
+writedlm(string(dir_output, "DAMAGESOLD.csv"), m[:damages, :DAMAGESOLD], ",")
+
+writedlm(string(dir_output, "DAMAGESSLR.csv"), m[:damages, :DAMAGESSLR], ",")
+writedlm(string(dir_output, "DAMAGESSLRCTRY.csv"), m[:damages, :DAMAGESSLRCTRY], ",")
+
+writedlm(string(dir_output, "DAMAGESTATM.csv"), m[:damages, :DAMAGESTATM], ",")
+writedlm(string(dir_output, "DAMAGESTATMCTRY.csv"), m[:damages, :DAMAGESTATMCTRY], ",")
+writedlm(string(dir_output, "DAMAGESTATMctryagg.csv"), m[:damages, :DAMAGESTATMctryagg], ",")
+writedlm(string(dir_output, "DAMAGESTATMOLD.csv"), m[:damages, :DAMAGESTATMOLD], ",")
+
+# Damage Fraction
+writedlm(string(dir_output, "DAMFRAC.csv"), m[:damages, :DAMFRAC], ",")
+writedlm(string(dir_output, "DAMFRACCTRY.csv"), m[:damages, :DAMFRACCTRY], ",")
+writedlm(string(dir_output, "DAMFRACOLD.csv"), m[:damages, :DAMFRACOLD], ",")
+
+writedlm(string(dir_output, "DAMFRACSLR.csv"), m[:damages, :DAMFRACSLR], ",")
+writedlm(string(dir_output, "DAMFRACSLRCTRY.csv"), m[:damages, :DAMFRACSLRCTRY], ",")
+writedlm(string(dir_output, "DAMFRACSLROLD.csv"), m[:damages, :DAMFRACSLROLD], ",")
+
+writedlm(string(dir_output, "DAMFRACTATM.csv"), m[:damages, :DAMFRACTATM], ",")
+writedlm(string(dir_output, "DAMFRACTATMCTRY.csv"), m[:damages, :DAMFRACTATMCTRY], ",")
+writedlm(string(dir_output, "DAMFRACTATMOLD.csv"), m[:damages, :DAMFRACTATMOLD], ",")
+
+writedlm(string(dir_output, "n1.csv"), m[:damages, :n1], ",")
+writedlm(string(dir_output, "n2.csv"), m[:damages, :n2], ",")
+writedlm(string(dir_output, "n3.csv"), m[:damages, :n3], ",")
+
+writedlm(string(dir_output, "f1.csv"), m[:damages, :f1], ",")
+writedlm(string(dir_output, "f2.csv"), m[:damages, :f2], ",")
+writedlm(string(dir_output, "f3.csv"), m[:damages, :f3], ",")
+
+writedlm(string(dir_output, "a1.csv"), m[:damages, :a1], ",")
+writedlm(string(dir_output, "a2.csv"), m[:damages, :a2], ",")
+
+# Gross Economy
+writedlm(string(dir_output, "YGROSS.csv"), m[:grosseconomy, :YGROSS], ",")
+writedlm(string(dir_output, "YGROSSctry.csv"), m[:grosseconomy, :YGROSSctry], ",")
+writedlm(string(dir_output, "gdpshare.csv"), m[:grosseconomy, :gdpshare], ",")
+
+# Net Economy
+writedlm(string(dir_output, "C.csv"), m[:neteconomy, :C], ",")
+writedlm(string(dir_output, "Cctry.csv"), m[:neteconomy, :Cctry], ",")
+writedlm(string(dir_output, "CPC.csv"), m[:neteconomy, :CPC], ",")
+writedlm(string(dir_output, "CPCctry.csv"), m[:neteconomy, :CPCctry], ",")
+writedlm(string(dir_output, "Y.csv"), m[:neteconomy, :Y], ",")
+writedlm(string(dir_output, "Yctry.csv"), m[:neteconomy, :Yctry], ",")
+
+# SLR
+writedlm(string(dir_output, "TOTALSLR.csv"), m[:sealevelrise, :TOTALSLR], ",")
+
+# Welfare
+writedlm(string(dir_output, "CEMUTOTPERNOnegishi.csv"), m[:welfare, :CEMUTOTPERNOnegishi], ",")
+writedlm(string(dir_output, "CEMUTOTPERNOnegishiPC.csv"), m[:welfare, :CEMUTOTPERNOnegishiPC], ",")
+writedlm(string(dir_output, "CEMUTOTPERctryNOnegishi.csv"), m[:welfare, :CEMUTOTPERctryNOnegishi], ",")
+writedlm(string(dir_output, "CEMUTOTPERctryNOnegishiPC.csv"), m[:welfare, :CEMUTOTPERctryNOnegishiPC], ",")
+
+writedlm(string(dir_output, "PERIODUNOnegishi.csv"), m[:welfare, :PERIODUNOnegishi], ",")
+writedlm(string(dir_output, "PERIODUctryNOnegishi.csv"), m[:welfare, :PERIODUctryNOnegishi], ",")
+
+writedlm(string(dir_output, "REGCUMCEMUTOTPERNOnegishi.csv"), m[:welfare, :REGCUMCEMUTOTPERNOnegishi], ",")
+writedlm(string(dir_output, "REGCUMCEMUTOTPERNOnegishiPC.csv"), m[:welfare, :REGCUMCEMUTOTPERNOnegishiPC], ",")
+writedlm(string(dir_output, "REGCUMCEMUTOTPERctryNOnegishi.csv"), m[:welfare, :REGCUMCEMUTOTPERctryNOnegishi], ",")
+writedlm(string(dir_output, "REGCUMCEMUTOTPERctryNOnegishiPC.csv"), m[:welfare, :REGCUMCEMUTOTPERctryNOnegishiPC], ",")
+
+writedlm(string(dir_output, "REGUTILITYNOnegishiNOrescale.csv"), m[:welfare, :REGUTILITYNOnegishiNOrescale], ",")
+writedlm(string(dir_output, "REGUTILITYNOnegishiNOrescalePC.csv"), m[:welfare, :REGUTILITYNOnegishiNOrescalePC], ",")
+writedlm(string(dir_output, "REGUTILITYctryNOnegishiNOrescale.csv"), m[:welfare, :REGUTILITYctryNOnegishiNOrescale], ",")
+writedlm(string(dir_output, "REGUTILITYctryNOnegishiNOrescalePC.csv"), m[:welfare, :REGUTILITYctryNOnegishiNOrescalePC], ",")
+
+writedlm(string(dir_output, "UTILITYNOnegishiNOrescale.csv"), m[:welfare, :UTILITYNOnegishiNOrescale], ",")
+writedlm(string(dir_output, "UTILITYctryaggNOnegishiNOrescale.csv"), m[:welfare, :UTILITYctryaggNOnegishiNOrescale], ",")
+
+# Population
 writedlm(string(dir_output, "lctry.csv"), m[:neteconomy, :lctry], ",")
 writedlm(string(dir_output, "l.csv"), m[:neteconomy, :l], ",")
+writedlm(string(dir_output, "popshare.csv"), m[:neteconomy, :popshare], ",")
 
-# extract out the total welfare --> save it to a variable
+
+# Calculate the baseline variables for SCC calculation
 
         damagebase = m[:damages,:DAMAGES]
         # println("damagebase")
@@ -150,8 +233,6 @@ run(m)
         println("marginal_consumption_region")
         println(marginal_consumption_region)
 
-        writedlm(string(dir_output, "marginal_consumption_region.csv"), marginal_consumption_region, ',')
-
         # CSV.write("C:/Users/simon/Google Drive/Uni/LSE Master/02_Dissertation/10_Modelling/damage-regressions/data/mimi-rice-output/marginal.consumption.csv", marginal_consumption)
 
                         # regional SCC -> NOT WORKING
@@ -168,6 +249,11 @@ run(m)
         SCC_consumption_region = sum(df * global_marginal_consumption_region * 10)  # currently implemented as a 10year step function; so each timestep of discounted marginal damages is multiplied by 10
         println("SCC_consumption_region")
         println(SCC_consumption_region)
+
+        writedlm(string(dir_output, "SCC_marginal_consumption_region.csv"), marginal_consumption_region, ',')
+        writedlm(string(dir_output, "SCC_global_marginal_consumption_region.csv"), global_marginal_consumption_region, ',')
+        writedlm(string(dir_output, "SCC_SCC_consumption_region.csv"), SCC_consumption_region, ',')
+
 
 
                 # SCC based on welfare is not working -> leave it
@@ -222,6 +308,10 @@ run(m)
         SCC_consumption_countries = sum(df * global_marginal_consumption_ctry * 10)  # currently implemented as a 10year step function; so each timestep of discounted marginal consumption is multiplied by 10
         println("SCC_consumption_countries")
         println(SCC_consumption_countries)
+
+        writedlm(string(dir_output, "SCC_marginal_consumption_ctry.csv"), marginal_consumption_ctry, ',')
+        writedlm(string(dir_output, "SCC_global_marginal_consumption_ctry.csv"), global_marginal_consumption_ctry, ',')
+        writedlm(string(dir_output, "SCC_SCC_consumption_countries.csv"), SCC_consumption_countries, ',')
 
         # println("SCCctry with return")
         # return scc
